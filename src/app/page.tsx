@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { TrendingUp, MessageSquare, BarChart3, Home, Send, Loader2, Lightbulb, Calendar, TrendingDown, Target, DollarSign, PiggyBank, Coins, Wallet, Plus, Trash2, LineChart } from "lucide-react"
+import { TrendingUp, MessageSquare, BarChart3, Home, Send, Loader2, Lightbulb, Calendar, TrendingDown, Target, DollarSign, PiggyBank, Coins, Wallet, Plus, Trash2, LineChart, ClipboardList } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -98,57 +98,57 @@ const marketInsights = {
       marketValue: 'R$ 62.40',
       trend: 'up',
       reason: 'Expansão da frota e aumento da demanda',
-      evolution: 'Crescimento consistente de 9.7% em 7 dias',
-      recommendation: 'BOA SEMANA'
+      evolution: 'Crescimento de 9.7% em 7 dias',
+      recommendation: 'MOMENTUM POSITIVO'
     }
   ],
   month: [
     {
-      ticker: 'NVDC34',
-      name: 'Nvidia (BDR)',
-      roi: '+28.4%',
-      marketValue: 'R$ 142.50',
+      ticker: 'ELET3',
+      name: 'Eletrobras',
+      roi: '+18.5%',
+      marketValue: 'R$ 42.30',
       trend: 'up',
-      reason: 'Boom de IA e chips de alta performance',
-      evolution: 'Valorização de 28.4% no mês',
-      recommendation: 'DESTAQUE MENSAL'
+      reason: 'Privatização consolidada e eficiência operacional',
+      evolution: 'Valorização de 18.5% no mês',
+      recommendation: 'TENDÊNCIA MENSAL'
     },
     {
-      ticker: 'EGIE3',
-      name: 'Engie Brasil',
-      roi: '+18.9%',
-      marketValue: 'R$ 41.20',
+      ticker: 'SUZB3',
+      name: 'Suzano',
+      roi: '+15.2%',
+      marketValue: 'R$ 58.70',
       trend: 'up',
-      reason: 'Investimentos em energia renovável e resultados sólidos',
-      evolution: 'Alta de 18.9% em 30 dias',
-      recommendation: 'CRESCIMENTO MENSAL'
+      reason: 'Preços da celulose em alta no mercado internacional',
+      evolution: 'Alta de 15.2% em 30 dias',
+      recommendation: 'CRESCIMENTO SUSTENTADO'
     }
   ],
   year: [
     {
       ticker: 'WEGE3',
       name: 'WEG',
-      roi: '+67.5%',
+      roi: '+45.8%',
       marketValue: 'R$ 42.15',
       trend: 'up',
-      reason: 'Líder em equipamentos elétricos e expansão internacional',
-      evolution: 'Valorização de 67.5% no ano',
-      recommendation: 'MELHOR DO ANO'
+      reason: 'Expansão internacional e crescimento em energias renováveis',
+      evolution: 'Crescimento de 45.8% no ano',
+      recommendation: 'DESTAQUE ANUAL'
     },
     {
       ticker: 'RADL3',
       name: 'Raia Drogasil',
-      roi: '+52.8%',
+      roi: '+38.4%',
       marketValue: 'R$ 28.90',
       trend: 'up',
-      reason: 'Expansão de lojas e digitalização do negócio',
-      evolution: 'Crescimento de 52.8% em 12 meses',
-      recommendation: 'TOP ANUAL'
+      reason: 'Consolidação do setor farmacêutico e expansão de lojas',
+      evolution: 'Valorização de 38.4% em 12 meses',
+      recommendation: 'CRESCIMENTO ANUAL'
     }
   ]
 }
 
-// Ações com melhores dividendos
+// Ações com bons dividendos
 const dividendStocks = [
   {
     ticker: 'TAEE11',
@@ -158,7 +158,7 @@ const dividendStocks = [
     lastDividend: 'R$ 2.89',
     paymentFrequency: 'Trimestral',
     consistency: 'Excelente',
-    analysis: 'Empresa de transmissão de energia com receita previsível e regulada. Histórico consistente de pagamento de dividendos elevados.',
+    analysis: 'Empresa de transmissão de energia com receita regulada e fluxo de caixa previsível. Histórico consistente de pagamento de dividendos acima de 8% ao ano.',
     indicators: {
       roe: '18.5%',
       payout: '95%',
@@ -174,27 +174,27 @@ const dividendStocks = [
     price: 'R$ 28.50',
     lastDividend: 'R$ 2.23',
     paymentFrequency: 'Semestral',
-    consistency: 'Muito Boa',
-    analysis: 'Braço de seguros do Banco do Brasil. Negócio resiliente com margens elevadas e distribuição generosa de lucros.',
+    consistency: 'Excelente',
+    analysis: 'Braço de seguros do Banco do Brasil. Modelo de negócio estável com alta geração de caixa e distribuição generosa de dividendos.',
     indicators: {
-      roe: '32.4%',
+      roe: '22.3%',
       payout: '85%',
       debtEquity: '0.3',
       growth5y: '+38%'
     },
-    recommendation: 'COMPRA'
+    recommendation: 'COMPRA FORTE'
   },
   {
     ticker: 'ITSA4',
     name: 'Itaúsa',
-    dividendYield: '6.95%',
+    dividendYield: '6.94%',
     price: 'R$ 9.80',
     lastDividend: 'R$ 0.68',
-    paymentFrequency: 'Mensal',
-    consistency: 'Excelente',
-    analysis: 'Holding do Itaú Unibanco. Dividendos mensais e exposição ao setor financeiro com gestão de excelência.',
+    paymentFrequency: 'Trimestral',
+    consistency: 'Muito Boa',
+    analysis: 'Holding do grupo Itaú com participações em diversos setores. Dividendos consistentes e exposição diversificada.',
     indicators: {
-      roe: '21.3%',
+      roe: '16.7%',
       payout: '70%',
       debtEquity: '0.5',
       growth5y: '+35%'
@@ -273,9 +273,16 @@ interface PortfolioStock {
   quantity: number
 }
 
+interface Expense {
+  id: string
+  name: string
+  value: number
+  type: 'fixed' | 'variable'
+}
+
 export default function CarteiraPro() {
   const [activeTab, setActiveTab] = useState("dashboard")
-  const [messages, setMessages] = useState<Array<{role: string, content: string}>>([])
+  const [messages, setMessages] = useState<Array<{role: string, content: string}>>([])]
   const [inputMessage, setInputMessage] = useState("")
   const [isLoadingChat, setIsLoadingChat] = useState(false)
   const [insightPeriod, setInsightPeriod] = useState<'day' | 'week' | 'month' | 'year'>('day')
@@ -295,6 +302,14 @@ export default function CarteiraPro() {
   ])
   const [newTicker, setNewTicker] = useState('')
   const [newQuantity, setNewQuantity] = useState('')
+
+  // Estados para o Planner (nova aba)
+  const [plannerSalary, setPlannerSalary] = useState('')
+  const [expenses, setExpenses] = useState<Expense[]>([])
+  const [newExpenseName, setNewExpenseName] = useState('')
+  const [newExpenseValue, setNewExpenseValue] = useState('')
+  const [newExpenseType, setNewExpenseType] = useState<'fixed' | 'variable'>('fixed')
+  const [plannerResult, setPlannerResult] = useState<any>(null)
 
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoadingChat) return
@@ -340,12 +355,32 @@ export default function CarteiraPro() {
       return
     }
 
-    // Cálculo para valorização (assumindo retorno médio de 12% ao ano)
-    const monthlyRate = 0.01
-    const monthsToGoal = Math.log(target / contribution) / Math.log(1 + monthlyRate)
+    // Cálculo com JUROS COMPOSTOS
+    // Taxa mensal conservadora: 1.5% ao mês (18% ao ano)
+    // Fórmula: M = C × [(1 + i)^n - 1] / i
+    // Onde: M = montante final, C = aporte mensal, i = taxa mensal, n = número de meses
+    
+    const monthlyRate = 0.015 // 1.5% ao mês (taxa plausível e conservadora)
+    
+    // Resolvendo para n (número de meses): n = log(1 + (M × i / C)) / log(1 + i)
+    const monthsToGoal = Math.log(1 + (target * monthlyRate / contribution)) / Math.log(1 + monthlyRate)
     const yearsToGoal = monthsToGoal / 12
+    
+    // Total investido (aportes mensais)
     const totalInvested = contribution * monthsToGoal
+    
+    // Retorno gerado pelos juros compostos
     const estimatedReturn = target - totalInvested
+    
+    // Rentabilidade percentual total
+    const totalReturnPercentage = (estimatedReturn / totalInvested) * 100
+
+    // Cálculo para aposentadoria: quanto de renda mensal posso ter?
+    // Usando a regra dos 4% (retirada sustentável anual)
+    const monthlyIncomeFrom4PercentRule = (target * 0.04) / 12
+    
+    // Renda mensal mantendo o capital (apenas com rendimentos de 1.5% ao mês)
+    const monthlyIncomeFromInterest = target * monthlyRate
 
     setCalculationResult({
       monthsToGoal: Math.ceil(monthsToGoal),
@@ -353,7 +388,11 @@ export default function CarteiraPro() {
       totalInvested: totalInvested.toFixed(2),
       estimatedReturn: estimatedReturn.toFixed(2),
       availableIncome: availableIncome.toFixed(2),
-      contributionPercentage: contributionPercentage.toFixed(1)
+      contributionPercentage: contributionPercentage.toFixed(1),
+      totalReturnPercentage: totalReturnPercentage.toFixed(1),
+      monthlyIncomeFrom4PercentRule: monthlyIncomeFrom4PercentRule.toFixed(2),
+      monthlyIncomeFromInterest: monthlyIncomeFromInterest.toFixed(2),
+      monthlyRate: (monthlyRate * 100).toFixed(2)
     })
   }
 
@@ -432,6 +471,67 @@ export default function CarteiraPro() {
     ]
   }
 
+  // Cálculo do retorno anual da carteira baseado nos dividendos
+  const calculateAnnualReturn = () => {
+    const totalValue = calculatePortfolioValue()
+    const annualDividends = calculatePortfolioDividends()
+    if (totalValue === 0) return 0
+    return (annualDividends / totalValue) * 100
+  }
+
+  // Cálculo da quantidade de ativos únicos na carteira
+  const getUniqueAssetsCount = () => {
+    return portfolioStocks.length
+  }
+
+  // Funções do Planner
+  const addExpense = () => {
+    const name = newExpenseName.trim()
+    const value = parseFloat(newExpenseValue)
+
+    if (!name || !value || value <= 0) {
+      alert('Por favor, preencha o nome e o valor válido da despesa.')
+      return
+    }
+
+    setExpenses([...expenses, {
+      id: Date.now().toString(),
+      name,
+      value,
+      type: newExpenseType
+    }])
+
+    setNewExpenseName('')
+    setNewExpenseValue('')
+  }
+
+  const removeExpense = (id: string) => {
+    setExpenses(expenses.filter(e => e.id !== id))
+  }
+
+  const calculatePlanner = () => {
+    const salary = parseFloat(plannerSalary)
+
+    if (!salary || salary <= 0) {
+      alert('Por favor, preencha um salário válido.')
+      return
+    }
+
+    const totalFixed = expenses.filter(e => e.type === 'fixed').reduce((sum, e) => sum + e.value, 0)
+    const totalVariable = expenses.filter(e => e.type === 'variable').reduce((sum, e) => sum + e.value, 0)
+    const totalExpenses = totalFixed + totalVariable
+    const remaining = salary - totalExpenses
+
+    setPlannerResult({
+      salary,
+      totalFixed,
+      totalVariable,
+      totalExpenses,
+      remaining,
+      remainingPercentage: (remaining / salary) * 100
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white">
       {/* Header */}
@@ -451,7 +551,7 @@ export default function CarteiraPro() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-6 bg-gray-900 border border-gray-800">
+          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-7 bg-gray-900 border border-gray-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-green-500/20 data-[state=active]:text-green-400">
               <Home className="w-4 h-4 mr-2" />
               Dashboard
@@ -476,6 +576,10 @@ export default function CarteiraPro() {
               <Wallet className="w-4 h-4 mr-2" />
               Carteira
             </TabsTrigger>
+            <TabsTrigger value="planner" className="data-[state=active]:bg-green-500/20 data-[state=active]:text-green-400">
+              <ClipboardList className="w-4 h-4 mr-2" />
+              Planner
+            </TabsTrigger>
           </TabsList>
 
           {/* Dashboard Tab */}
@@ -498,13 +602,13 @@ export default function CarteiraPro() {
                 </CardContent>
               </Card>
 
-              {/* Stats Cards */}
+              {/* Stats Cards - INTEGRADOS COM A CARTEIRA */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 hover:border-green-400/50 transition-all shadow-lg">
                   <CardHeader className="pb-3">
                     <CardDescription className="text-gray-400 text-sm">Valor Total</CardDescription>
                     <CardTitle className="text-3xl font-bold text-green-400">
-                      R$ 124.580
+                      R$ {calculatePortfolioValue().toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -520,7 +624,7 @@ export default function CarteiraPro() {
                   <CardHeader className="pb-3">
                     <CardDescription className="text-gray-400 text-sm">Ativos</CardDescription>
                     <CardTitle className="text-3xl font-bold text-emerald-400">
-                      12
+                      {getUniqueAssetsCount()}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -532,11 +636,11 @@ export default function CarteiraPro() {
                   <CardHeader className="pb-3">
                     <CardDescription className="text-gray-400 text-sm">Retorno Anual</CardDescription>
                     <CardTitle className="text-3xl font-bold text-green-300">
-                      +24.7%
+                      +{calculateAnnualReturn().toFixed(2)}%
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-gray-500">Acima da média</p>
+                    <p className="text-sm text-gray-500">Baseado em dividendos</p>
                   </CardContent>
                 </Card>
               </div>
@@ -549,7 +653,7 @@ export default function CarteiraPro() {
                     Planejador Financeiro Inteligente
                   </CardTitle>
                   <CardDescription className="text-gray-300">
-                    Calcule quanto tempo levará para atingir seus objetivos financeiros
+                    Calcule quanto tempo levará para atingir seus objetivos financeiros com juros compostos
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -616,7 +720,7 @@ export default function CarteiraPro() {
                       <CardContent className="p-6 space-y-4">
                         <div className="flex items-center gap-2 mb-4">
                           <Target className="w-6 h-6 text-green-400" />
-                          <h3 className="text-xl font-bold text-green-400">Seu Plano Financeiro</h3>
+                          <h3 className="text-xl font-bold text-green-400">Seu Plano Financeiro (Juros Compostos)</h3>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -627,13 +731,14 @@ export default function CarteiraPro() {
                           </div>
 
                           <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
-                            <p className="text-sm text-gray-400 mb-1">Total investido</p>
+                            <p className="text-sm text-gray-400 mb-1">Total investido (aportes)</p>
                             <p className="text-2xl font-bold text-white">R$ {parseFloat(calculationResult.totalInvested).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                           </div>
 
                           <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
-                            <p className="text-sm text-gray-400 mb-1">Retorno estimado</p>
+                            <p className="text-sm text-gray-400 mb-1">Retorno dos juros compostos</p>
                             <p className="text-2xl font-bold text-green-400">R$ {parseFloat(calculationResult.estimatedReturn).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                            <p className="text-sm text-green-500">+{calculationResult.totalReturnPercentage}% de rentabilidade</p>
                           </div>
 
                           <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
@@ -643,9 +748,33 @@ export default function CarteiraPro() {
                           </div>
                         </div>
 
+                        {/* Seção de Aposentadoria */}
+                        <div className="pt-4 border-t border-gray-700">
+                          <h4 className="text-lg font-semibold text-green-400 mb-3 flex items-center gap-2">
+                            <PiggyBank className="w-5 h-5" />
+                            Renda Mensal na Aposentadoria
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-4 bg-gray-900/50 rounded-lg border border-green-400/30">
+                              <p className="text-sm text-gray-400 mb-1">Renda mensal (Regra dos 4%)</p>
+                              <p className="text-2xl font-bold text-green-400">
+                                R$ {parseFloat(calculationResult.monthlyIncomeFrom4PercentRule).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-2">Retirada sustentável preservando capital</p>
+                            </div>
+                            <div className="p-4 bg-gray-900/50 rounded-lg border border-emerald-400/30">
+                              <p className="text-sm text-gray-400 mb-1">Renda mensal (Apenas juros)</p>
+                              <p className="text-2xl font-bold text-emerald-400">
+                                R$ {parseFloat(calculationResult.monthlyIncomeFromInterest).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-2">Vivendo dos rendimentos ({calculationResult.monthlyRate}% ao mês)</p>
+                            </div>
+                          </div>
+                        </div>
+
                         <div className="pt-4 border-t border-gray-700">
                           <p className="text-sm text-gray-300 leading-relaxed">
-                            <span className="text-green-400 font-semibold">Análise IA:</span> Com aportes mensais de R$ {monthlyContribution} e retorno médio de 12% ao ano, você atingirá seu objetivo de R$ {targetAmount} em aproximadamente {calculationResult.yearsToGoal} anos. Mantenha a disciplina nos aportes e considere aumentá-los conforme sua renda crescer.
+                            <span className="text-green-400 font-semibold">Análise IA:</span> Com aportes mensais de R$ {monthlyContribution} e rentabilidade de {calculationResult.monthlyRate}% ao mês (juros compostos), você atingirá R$ {targetAmount} em {calculationResult.yearsToGoal} anos. O poder dos juros compostos gerará R$ {parseFloat(calculationResult.estimatedReturn).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} em rendimentos. Na aposentadoria, você poderá ter uma renda mensal de até R$ {parseFloat(calculationResult.monthlyIncomeFromInterest).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} mantendo seu capital intacto!
                           </p>
                         </div>
                       </CardContent>
@@ -653,63 +782,28 @@ export default function CarteiraPro() {
                   )}
                 </CardContent>
               </Card>
-
-              {/* Portfolio Distribution */}
-              <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 shadow-xl">
-                <CardHeader>
-                  <CardTitle>Distribuição do Portfólio</CardTitle>
-                  <CardDescription className="text-gray-300">Alocação de ativos por categoria</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {portfolioData.map((item, idx) => (
-                      <div key={idx} className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-300">{item.name}</span>
-                          <span className="font-semibold text-white">{item.value}%</span>
-                        </div>
-                        <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
-                          <div 
-                            className="h-full rounded-full transition-all duration-500"
-                            style={{ 
-                              width: `${item.value}%`,
-                              backgroundColor: item.color
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </TabsContent>
 
-          {/* Chat IA Tab */}
+          {/* Chat Tab */}
           <TabsContent value="chat" className="mt-6">
             <div className="max-w-4xl mx-auto">
               <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 shadow-xl">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-green-400">
+                  <CardTitle className="flex items-center gap-2">
                     <MessageSquare className="w-6 h-6 text-green-400" />
                     Chat com IA Financeira
                   </CardTitle>
                   <CardDescription className="text-gray-300">
-                    Tire suas dúvidas sobre investimentos e mercado financeiro
+                    Tire suas dúvidas sobre investimentos e receba orientações personalizadas
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* Messages Area */}
-                  <div className="h-96 overflow-y-auto space-y-4 p-4 bg-black/30 rounded-lg border border-gray-800">
+                  {/* Chat Messages */}
+                  <div className="h-96 overflow-y-auto space-y-4 p-4 bg-gray-900/50 rounded-lg border border-gray-700">
                     {messages.length === 0 ? (
-                      <div className="h-full flex items-center justify-center text-center">
-                        <div>
-                          <MessageSquare className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                          <p className="text-gray-300">Comece uma conversa!</p>
-                          <p className="text-sm text-gray-500 mt-2">
-                            Pergunte sobre ações, fundos, estratégias de investimento...
-                          </p>
-                        </div>
+                      <div className="flex items-center justify-center h-full text-gray-500">
+                        <p>Comece uma conversa sobre investimentos...</p>
                       </div>
                     ) : (
                       messages.map((msg, idx) => (
@@ -718,35 +812,27 @@ export default function CarteiraPro() {
                           className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
-                            className={`max-w-[80%] p-4 rounded-2xl ${
+                            className={`max-w-[80%] p-3 rounded-lg ${
                               msg.role === 'user'
                                 ? 'bg-gradient-to-r from-green-400 to-emerald-600 text-black'
-                                : 'bg-gray-800 text-gray-100 border border-gray-700'
+                                : 'bg-gray-800 text-white border border-gray-700'
                             }`}
                           >
-                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+                            <p className="text-sm">{msg.content}</p>
                           </div>
                         </div>
                       ))
                     )}
-                    {isLoadingChat && (
-                      <div className="flex justify-start">
-                        <div className="bg-gray-800 text-white border border-gray-700 p-4 rounded-2xl">
-                          <Loader2 className="w-5 h-5 animate-spin text-green-400" />
-                        </div>
-                      </div>
-                    )}
                   </div>
 
-                  {/* Input Area */}
+                  {/* Input */}
                   <div className="flex gap-2">
                     <Input
+                      placeholder="Digite sua pergunta sobre investimentos..."
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                      placeholder="Digite sua pergunta sobre investimentos..."
-                      className="flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
-                      disabled={isLoadingChat}
+                      className="bg-gray-900 border-gray-700 text-white"
                     />
                     <Button
                       onClick={sendMessage}
@@ -1356,27 +1442,217 @@ export default function CarteiraPro() {
                           </div>
                         </CardContent>
                       </Card>
-
-                      {/* Análise IA da Carteira */}
-                      <Card className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-green-400/30">
-                        <CardContent className="p-6">
-                          <div className="flex items-start gap-3">
-                            <Lightbulb className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="text-lg font-semibold text-green-400 mb-2">
-                                Análise IA da Sua Carteira
-                              </h4>
-                              <p className="text-gray-300 text-sm leading-relaxed">
-                                Sua carteira está avaliada em <span className="font-semibold text-white">R$ {calculatePortfolioValue().toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span> com um dividend yield médio de <span className="font-semibold text-green-400">{((calculatePortfolioDividends() / calculatePortfolioValue()) * 100).toFixed(2)}%</span>. 
-                                {portfolioStocks.length < 5 && ' Considere diversificar mais sua carteira adicionando ações de diferentes setores para reduzir riscos.'}
-                                {portfolioStocks.length >= 5 && ' Sua carteira apresenta boa diversificação. Continue monitorando os resultados e considere rebalancear periodicamente.'}
-                                {' '}Os dividendos anuais projetados são de <span className="font-semibold text-blue-400">R$ {calculatePortfolioDividends().toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>, o que representa uma renda passiva mensal de aproximadamente <span className="font-semibold text-purple-400">R$ {(calculatePortfolioDividends() / 12).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>.
-                              </p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
                     </>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Planner Tab - NOVA ABA */}
+          <TabsContent value="planner" className="mt-6">
+            <div className="max-w-6xl mx-auto space-y-6">
+              <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700 shadow-xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-green-400">
+                    <ClipboardList className="w-6 h-6 text-green-400" />
+                    Planejamento Financeiro Mensal
+                  </CardTitle>
+                  <CardDescription className="text-gray-300">
+                    Organize seus custos fixos e variáveis para calcular quanto sobra para investimentos
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Input de Salário */}
+                  <div className="space-y-2">
+                    <Label htmlFor="planner-salary" className="text-white">Salário Mensal (R$)</Label>
+                    <Input
+                      id="planner-salary"
+                      type="number"
+                      placeholder="5000"
+                      value={plannerSalary}
+                      onChange={(e) => setPlannerSalary(e.target.value)}
+                      className="bg-gray-800 border-gray-700 text-white"
+                    />
+                  </div>
+
+                  {/* Adicionar Despesa */}
+                  <Card className="bg-gray-800/50 border-gray-700">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Adicionar Despesa</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex gap-3 items-end flex-wrap">
+                        <div className="flex-1 min-w-[200px]">
+                          <Label htmlFor="expense-name" className="text-white mb-2 block">Nome da Despesa</Label>
+                          <Input
+                            id="expense-name"
+                            placeholder="Ex: Aluguel"
+                            value={newExpenseName}
+                            onChange={(e) => setNewExpenseName(e.target.value)}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-[150px]">
+                          <Label htmlFor="expense-value" className="text-white mb-2 block">Valor (R$)</Label>
+                          <Input
+                            id="expense-value"
+                            type="number"
+                            placeholder="1500"
+                            value={newExpenseValue}
+                            onChange={(e) => setNewExpenseValue(e.target.value)}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-[150px]">
+                          <Label htmlFor="expense-type" className="text-white mb-2 block">Tipo</Label>
+                          <select
+                            id="expense-type"
+                            value={newExpenseType}
+                            onChange={(e) => setNewExpenseType(e.target.value as 'fixed' | 'variable')}
+                            className="w-full h-10 px-3 rounded-md bg-gray-900 border border-gray-700 text-white"
+                          >
+                            <option value="fixed">Fixa</option>
+                            <option value="variable">Variável</option>
+                          </select>
+                        </div>
+                        <Button
+                          onClick={addExpense}
+                          className="bg-gradient-to-r from-green-400 to-emerald-600 text-black hover:from-green-500 hover:to-emerald-700"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Adicionar
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Lista de Despesas */}
+                  <Card className="bg-gray-800/50 border-gray-700">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Despesas Cadastradas</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {expenses.length === 0 ? (
+                        <div className="text-center py-8 text-gray-500">
+                          <ClipboardList className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                          <p>Nenhuma despesa cadastrada ainda.</p>
+                          <p className="text-sm mt-1">Adicione suas despesas acima para começar!</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {expenses.map((expense) => (
+                            <div
+                              key={expense.id}
+                              className="p-4 bg-gray-900/50 rounded-lg border border-gray-700 hover:border-green-400/50 transition-all"
+                            >
+                              <div className="flex items-center justify-between gap-4">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-3 mb-1">
+                                    <h3 className="text-lg font-bold text-white">{expense.name}</h3>
+                                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                      expense.type === 'fixed'
+                                        ? 'bg-blue-500/20 text-blue-400 border border-blue-400/50'
+                                        : 'bg-orange-500/20 text-orange-400 border border-orange-400/50'
+                                    }`}>
+                                      {expense.type === 'fixed' ? 'Fixa' : 'Variável'}
+                                    </span>
+                                  </div>
+                                  <p className="text-green-400 font-semibold">
+                                    R$ {expense.value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  </p>
+                                </div>
+                                <Button
+                                  onClick={() => removeExpense(expense.id)}
+                                  variant="outline"
+                                  size="sm"
+                                  className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Botão Calcular */}
+                  <Button
+                    onClick={calculatePlanner}
+                    className="w-full bg-gradient-to-r from-green-400 to-emerald-600 text-black hover:from-green-500 hover:to-emerald-700 font-semibold"
+                  >
+                    <Target className="w-5 h-5 mr-2" />
+                    Calcular Planejamento
+                  </Button>
+
+                  {/* Resultado do Planejamento */}
+                  {plannerResult && (
+                    <Card className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-green-400/30">
+                      <CardContent className="p-6 space-y-4">
+                        <div className="flex items-center gap-2 mb-4">
+                          <ClipboardList className="w-6 h-6 text-green-400" />
+                          <h3 className="text-xl font-bold text-green-400">Resultado do Planejamento</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
+                            <p className="text-sm text-gray-400 mb-1">Salário Mensal</p>
+                            <p className="text-2xl font-bold text-white">
+                              R$ {plannerResult.salary.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+
+                          <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
+                            <p className="text-sm text-gray-400 mb-1">Total de Despesas</p>
+                            <p className="text-2xl font-bold text-red-400">
+                              R$ {plannerResult.totalExpenses.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+
+                          <div className="p-4 bg-gray-900/50 rounded-lg border border-blue-400/30">
+                            <p className="text-sm text-gray-400 mb-1">Custos Fixos</p>
+                            <p className="text-2xl font-bold text-blue-400">
+                              R$ {plannerResult.totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+
+                          <div className="p-4 bg-gray-900/50 rounded-lg border border-orange-400/30">
+                            <p className="text-sm text-gray-400 mb-1">Custos Variáveis</p>
+                            <p className="text-2xl font-bold text-orange-400">
+                              R$ {plannerResult.totalVariable.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Valor Restante */}
+                        <div className="pt-4 border-t border-gray-700">
+                          <div className="p-6 bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-lg border border-green-400/50">
+                            <p className="text-sm text-gray-400 mb-2">Disponível para Investimentos</p>
+                            <p className="text-4xl font-bold text-green-400 mb-2">
+                              R$ {plannerResult.remaining.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                            <p className="text-sm text-gray-300">
+                              {plannerResult.remainingPercentage.toFixed(1)}% do seu salário
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Análise IA */}
+                        <div className="pt-4 border-t border-gray-700">
+                          <p className="text-sm text-gray-300 leading-relaxed">
+                            <span className="text-green-400 font-semibold">Análise IA:</span> {
+                              plannerResult.remaining > 0
+                                ? `Excelente! Você tem R$ ${plannerResult.remaining.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} disponíveis para investir mensalmente. Isso representa ${plannerResult.remainingPercentage.toFixed(1)}% do seu salário. Recomendamos alocar esse valor em uma carteira diversificada de investimentos para construir seu patrimônio no longo prazo.`
+                                : plannerResult.remaining === 0
+                                ? 'Atenção! Suas despesas estão consumindo 100% do seu salário. É importante criar uma margem de segurança e buscar formas de reduzir custos ou aumentar sua renda para começar a investir.'
+                                : `Alerta! Suas despesas excedem seu salário em R$ ${Math.abs(plannerResult.remaining).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}. É urgente revisar seus gastos e buscar formas de equilibrar suas finanças para evitar endividamento.`
+                            }
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
                   )}
                 </CardContent>
               </Card>

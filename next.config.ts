@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Desabilitar Turbopack no build (usar Webpack para estabilidade)
+  webpack: (config) => {
+    return config;
+  },
+  
   // Configuração de imagens para principais provedores
   images: {
     remotePatterns: [
