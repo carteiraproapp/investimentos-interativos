@@ -4,14 +4,14 @@ import { supabase, createSubscription } from '@/lib/supabase'
 // Mapeamento dos links de pagamento Kirvano para planos
 const KIRVANO_PLANS = {
   '227ebec4-ebf0-4e94-a9ee-8e13f323c3ac': {
-    name: 'Plano Básico',
+    name: 'Plano Mensal',
     duration_months: 1,
-    type: 'basic'
+    type: 'monthly'
   },
   'c27cf3e4-51e9-41df-8101-3988f6073c45': {
-    name: 'Plano Premium',
+    name: 'Plano Semestral',
     duration_months: 6,
-    type: 'premium'
+    type: 'semester'
   },
   '351891dd-c61a-42d1-b9ce-90d32f33e246': {
     name: 'Plano Anual',
@@ -104,6 +104,16 @@ export async function POST(request: NextRequest) {
         }
 
         userId = authData.user.id
+
+        // Criar registro na tabela users
+        await supabase
+          .from('users')
+          .insert({
+            id: userId,
+            email: customer_email,
+            is_admin: false
+          })
+
         console.log('✅ Usuário criado com sucesso:', userId)
       }
 
@@ -118,13 +128,17 @@ export async function POST(request: NextRequest) {
 
       console.log('✅ Assinatura criada:', subscriptionData)
 
+      // URL do app para redirecionamento
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://carteiraproapp.com'
+
       // Preparar dados para envio de email
       const emailData = {
         email: customer_email,
         name: customer_name || customer_email.split('@')[0],
-        password: userExists ? null : tempPassword, // Só envia senha se for novo usuário
+        password: userExists ? null : tempPassword,
         plan: planInfo.name,
-        app_url: process.env.NEXT_PUBLIC_APP_URL || 'https://seu-app.vercel.app'
+        app_url: appUrl,
+        login_url: `${appUrl}/login`
       }
 
       // TODO: Enviar email com credenciais
@@ -133,17 +147,21 @@ export async function POST(request: NextRequest) {
       console.log('📧 Credenciais (envie por email):', {
         email: customer_email,
         senha: userExists ? 'Usuário já existe - use senha anterior' : tempPassword,
-        plano: planInfo.name
+        plano: planInfo.name,
+        url_login: emailData.login_url
       })
 
+      // Retornar resposta com URL de redirecionamento
       return NextResponse.json({ 
         success: true, 
         message: 'Assinatura criada com sucesso',
         user_id: userId,
         plan: planInfo.name,
+        redirect_url: `${appUrl}/login?welcome=true&email=${encodeURIComponent(customer_email)}`,
         credentials: {
           email: customer_email,
-          password: userExists ? null : tempPassword
+          password: userExists ? null : tempPassword,
+          login_url: emailData.login_url
         }
       })
     }
@@ -190,6 +208,7 @@ export async function GET() {
   return NextResponse.json({ 
     status: 'active',
     message: 'Webhook Kirvano está funcionando',
-    plans: KIRVANO_PLANS
+    plans: KIRVANO_PLANS,
+    app_url: process.env.NEXT_PUBLIC_APP_URL || 'https://carteiraproapp.com'
   })
 }

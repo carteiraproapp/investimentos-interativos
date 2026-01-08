@@ -14,6 +14,18 @@ export interface UserProfile {
   updated_at: string
 }
 
+export interface Subscription {
+  id: string
+  user_id: string
+  email: string
+  payment_id: string
+  plan_type: string
+  status: string
+  start_date: string
+  end_date: string
+  created_at: string
+}
+
 // Função para verificar se usuário é admin
 export async function isUserAdmin(email: string): Promise<boolean> {
   try {
@@ -52,6 +64,45 @@ export async function getUserProfile(email: string): Promise<UserProfile | null>
     return data
   } catch (error) {
     console.error('Error in getUserProfile:', error)
+    return null
+  }
+}
+
+// Função para criar assinatura
+export async function createSubscription(
+  userId: string,
+  email: string,
+  paymentId: string,
+  planType: string,
+  durationMonths: number
+): Promise<Subscription | null> {
+  try {
+    const startDate = new Date()
+    const endDate = new Date()
+    endDate.setMonth(endDate.getMonth() + durationMonths)
+
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .insert({
+        user_id: userId,
+        email: email,
+        payment_id: paymentId,
+        plan_type: planType,
+        status: 'active',
+        start_date: startDate.toISOString(),
+        end_date: endDate.toISOString()
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error creating subscription:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Error in createSubscription:', error)
     return null
   }
 }
